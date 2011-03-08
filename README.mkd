@@ -1,0 +1,22 @@
+Usage examples
+==============
+
+Deactivate the current virtualenv
+
+    :VirtualEnvDeactivate
+
+List all virtualenvs
+
+    :VirtualEnvList
+
+Activate the 'spam' virtualenv
+
+    :VirtualEnvActivate spam
+
+If you're sure which one to activate, you could always use tab completion
+
+    :VirtualEnvActivate <tab>
+
+If you're a virtualenvwrapper user and have $PROJECT\_HOME set, omitting the
+name will try to guess which virtualenv to activate based on the current
+filename.
