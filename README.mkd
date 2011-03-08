@@ -20,3 +20,9 @@ If you're sure which one to activate, you could always use tab completion
 If you're a virtualenvwrapper user and have $PROJECT\_HOME set, omitting the
 name will try to guess which virtualenv to activate based on the current
 filename.
+
+Todo
+====
+
+* Add/modify $PATH so that it uses the virtualenv first and :!python works as expected
+* Add more description of statusline feature and general docs fleshing out
