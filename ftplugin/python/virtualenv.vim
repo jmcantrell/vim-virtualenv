@@ -84,7 +84,9 @@ try:
 except:
     pass
 EOF
-    let $PATH = g:virtualenv_path
+    if exists('g:virtualenv_path')
+        let $PATH = g:virtualenv_path
+    endif
     unlet! g:virtualenv_name
     unlet! g:virtualenv_path
 endfunction
