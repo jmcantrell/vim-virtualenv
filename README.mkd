@@ -39,3 +39,4 @@ You can even show the current virtualenv in the statusline with the included fun
 For more detailed help
 
     :help virtualenv
+
