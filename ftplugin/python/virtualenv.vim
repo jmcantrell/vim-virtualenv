@@ -57,12 +57,15 @@ function! s:VirtualEnvActivate(name) "{{{1
         call s:Error("No VirtualEnv name given")
         return
     endif
-    let script = $WORKON_HOME.'/'.name.'/bin/activate_this.py'
+    let bin = $WORKON_HOME.'/'.name.'/bin'
+    let script = bin.'/activate_this.py'
     if !filereadable(script)
         call s:Error("'".name."' is not a valid virtualenv")
         return 0
     endif
     call s:VirtualEnvDeactivate()
+    let g:virtualenv_path = $PATH
+    let $PATH = bin.':'.$PATH
     python << EOF
 import vim, sys
 activate_this = vim.eval('l:script')
@@ -81,7 +84,9 @@ try:
 except:
     pass
 EOF
+    let $PATH = g:virtualenv_path
     unlet! g:virtualenv_name
+    unlet! g:virtualenv_path
 endfunction
 
 function! s:VirtualEnvList() "{{{1
