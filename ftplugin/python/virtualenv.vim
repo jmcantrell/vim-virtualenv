@@ -16,6 +16,14 @@ if !exists("g:virtualenv_stl_format")
     let g:virtualenv_stl_format = '[%n]'
 endif
 
+if !exists("g:virtualenv_directory")
+    if isdirectory($WORKON_HOME)
+        let g:virtualenv_directory = $WORKON_HOME
+    else
+        let g:virtualenv_directory = '~/.virtualenvs'
+    endif
+endif
+
 let s:save_cpo = &cpo
 set cpo&vim
 
@@ -32,8 +40,8 @@ function! s:Error(message) "{{{1
 endfunction
 
 function! s:CheckEnv() "{{{1
-    if !isdirectory($WORKON_HOME)
-        call s:Error('$WORKON_HOME is not set or is not a directory')
+    if !isdirectory(g:virtualenv_directory)
+        call s:Error('g:virtualenv_directory is not set or is not a directory')
         return 0
     endif
     return 1
@@ -57,7 +65,7 @@ function! s:VirtualEnvActivate(name) "{{{1
         call s:Error("No VirtualEnv name given")
         return
     endif
-    let bin = $WORKON_HOME.'/'.name.'/bin'
+    let bin = g:virtualenv_directory.'/'.name.'/bin'
     let script = bin.'/activate_this.py'
     if !filereadable(script)
         call s:Error("'".name."' is not a valid virtualenv")
@@ -102,7 +110,7 @@ function! s:GetVirtualEnvs(prefix) "{{{1
         return []
     endif
     let venvs = []
-    for dir in split(glob($WORKON_HOME.'/'.a:prefix.'*'), '\n')
+    for dir in split(glob(g:virtualenv_directory.'/'.a:prefix.'*'), '\n')
         if !isdirectory(dir)
             continue
         endif
