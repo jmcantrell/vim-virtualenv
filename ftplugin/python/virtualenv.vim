@@ -59,6 +59,12 @@ function! s:VirtualEnvActivate(name) "{{{1
             if fn =~ pat
                 let name = fnamemodify(substitute(fn, pat, '', ''), ':h')
             endif
+        elseif isdirectory($VIRTUAL_ENV)
+            python << EOF
+import vim, os, sys
+venv = os.path.basename(os.environ.get("VIRTUAL_ENV"))
+vim.command('let l:name = "%s"' % venv)
+EOF
         endif
     endif
     if len(name) == 0  "Couldn't figure it out, so DIE
