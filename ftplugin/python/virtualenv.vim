@@ -136,3 +136,7 @@ endfunction
 "}}}
 
 let &cpo = s:save_cpo
+
+if exists("g:virtualenv_autoworkon")
+    call s:VirtualEnvActivate('')
+endif
