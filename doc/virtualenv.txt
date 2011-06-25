@@ -31,6 +31,10 @@ g:virtualenv_directory                             *g:virtualenv_directory*
     user and you have $WORKON_HOME set, it will default to this. Otherwise it
     will default to ~/.virtualenvs.
 
+g:virtualenv_auto_activate                     *g:virtualenv_auto_activate*
+    If set, any python files that are loaded will cause an automatic
+    activation of the virtualenv.
+
 Example: >
     let g:virtualenv_directory = '/path/to/virtualenvs'
 <

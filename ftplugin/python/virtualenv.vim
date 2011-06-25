@@ -53,18 +53,14 @@ function! s:VirtualEnvActivate(name) "{{{1
     endif
     let name = a:name
     if len(name) == 0  "Figure out the name based on current file
-        if isdirectory($PROJECT_HOME)
+        if isdirectory($VIRTUAL_ENV)
+            let name = fnamemodify($VIRTUAL_ENV, ':h')
+        elseif isdirectory($PROJECT_HOME)
             let fn = expand('%:p')
             let pat = '^'.$PROJECT_HOME.'/'
             if fn =~ pat
                 let name = fnamemodify(substitute(fn, pat, '', ''), ':h')
             endif
-        elseif isdirectory($VIRTUAL_ENV)
-            python << EOF
-import vim, os, sys
-venv = os.path.basename(os.environ.get("VIRTUAL_ENV"))
-vim.command('let l:name = "%s"' % venv)
-EOF
         endif
     endif
     if len(name) == 0  "Couldn't figure it out, so DIE
@@ -137,6 +133,6 @@ endfunction
 
 let &cpo = s:save_cpo
 
-if exists("g:virtualenv_autoworkon")
+if exists("g:virtualenv_auto_activate")
     call s:VirtualEnvActivate('')
 endif

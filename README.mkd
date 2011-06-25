@@ -28,6 +28,9 @@ If you're sure which one to activate, you could always use tab completion
 
 ![tab-completion](http://i.imgur.com/1ZGrM.png "Tab Completion")
 
+If the shell that started vim had $VIRTUAL\_ENV set, omitting the name will
+imply usage of this value.
+
 If you're a virtualenvwrapper user and have $PROJECT\_HOME set, omitting the
 name will try to guess which virtualenv to activate based on the current
 filename.
