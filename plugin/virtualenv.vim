@@ -127,14 +127,6 @@ function! s:CompleteVirtualEnv(arg_lead, cmd_line, cursor_pos) "{{{1
     return s:GetVirtualEnvs(a:arg_lead)
 endfunction
 
-"}}}
-
-let &cpo = s:save_cpo
-
-if exists("g:virtualenv_auto_activate")
-    call s:VirtualEnvActivate('')
-endif
-
 function! VirtualEnvStatusline() "{{{1
     if exists('g:virtualenv_name')
         return substitute(g:virtualenv_stl_format, '\C%n', g:virtualenv_name, 'g')
@@ -142,5 +134,13 @@ function! VirtualEnvStatusline() "{{{1
         return ''
     endif
 endfunction
+
+"}}}
+
+let &cpo = s:save_cpo
+
+if exists("g:virtualenv_auto_activate")
+    call s:VirtualEnvActivate('')
+endif
 
 let g:virtualenv_loaded = 1
