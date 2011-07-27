@@ -38,7 +38,7 @@ function! s:Error(message) "{{{1
 endfunction
 
 function! s:CheckEnv() "{{{1
-    if !isdirectory(g:virtualenv_directory)
+    if !isdirectory(expand(g:virtualenv_directory))
         call s:Error('g:virtualenv_directory is not set or is not a directory')
         return 0
     endif
