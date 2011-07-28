@@ -22,6 +22,8 @@ if !exists("g:virtualenv_directory")
     endif
 endif
 
+let g:virtualenv_directory = expand(g:virtualenv_directory)
+
 let s:save_cpo = &cpo
 set cpo&vim
 
@@ -38,7 +40,7 @@ function! s:Error(message) "{{{1
 endfunction
 
 function! s:CheckEnv() "{{{1
-    if !isdirectory(expand(g:virtualenv_directory))
+    if !isdirectory(g:virtualenv_directory)
         call s:Error('g:virtualenv_directory is not set or is not a directory')
         return 0
     endif
