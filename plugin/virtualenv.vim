@@ -54,7 +54,7 @@ function! s:VirtualEnvActivate(name) "{{{1
     let name = a:name
     if len(name) == 0  "Figure out the name based on current file
         if isdirectory($VIRTUAL_ENV)
-            let name = fnamemodify($VIRTUAL_ENV, ':h')
+            let name = fnamemodify($VIRTUAL_ENV, ':t')
         elseif isdirectory($PROJECT_HOME)
             let fn = expand('%:p')
             let pat = '^'.$PROJECT_HOME.'/'
