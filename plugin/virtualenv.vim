@@ -11,7 +11,7 @@ if !has('python')
 endif
 
 if !exists("g:virtualenv_stl_format")
-    let g:virtualenv_stl_format = '[%n]'
+    let g:virtualenv_stl_format = '%n'
 endif
 
 if !exists("g:virtualenv_directory")
