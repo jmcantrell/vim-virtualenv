@@ -6,8 +6,17 @@ if exists("g:virtualenv_loaded")
     finish
 endif
 
+let g:virtualenv_loaded = 1
+
+let s:save_cpo = &cpo
+set cpo&vim
+
 if !has('python')
     finish
+endif
+
+if !exists("g:virtualenv_auto_activate")
+    let g:virtualenv_auto_activate = 1
 endif
 
 if !exists("g:virtualenv_stl_format")
@@ -24,16 +33,9 @@ endif
 
 let g:virtualenv_directory = expand(g:virtualenv_directory)
 
-let s:save_cpo = &cpo
-set cpo&vim
-
 command! -bar VirtualEnvList :call s:VirtualEnvList()
 command! -bar VirtualEnvDeactivate :call s:VirtualEnvDeactivate()
 command! -bar -nargs=? -complete=customlist,s:CompleteVirtualEnv VirtualEnvActivate :call s:VirtualEnvActivate(<q-args>)
-
-function! s:Warn(message) "{{{1
-    echohl WarningMsg | echo a:message | echohl None
-endfunction
 
 function! s:Error(message) "{{{1
     echohl ErrorMsg | echo a:message | echohl None
@@ -64,7 +66,6 @@ function! s:VirtualEnvActivate(name) "{{{1
         endif
     endif
     if len(name) == 0  "Couldn't figure it out, so DIE
-        call s:Error("No VirtualEnv name given")
         return
     endif
     let bin = g:virtualenv_directory.'/'.name.'/bin'
@@ -139,10 +140,8 @@ endfunction
 
 "}}}
 
-let &cpo = s:save_cpo
-
-if exists("g:virtualenv_auto_activate")
+if g:virtualenv_auto_activate == 1
     call s:VirtualEnvActivate('')
 endif
 
-let g:virtualenv_loaded = 1
+let &cpo = s:save_cpo
