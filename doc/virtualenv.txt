@@ -32,8 +32,8 @@ g:virtualenv_directory                             *g:virtualenv_directory*
     will default to ~/.virtualenvs.
 
 g:virtualenv_auto_activate                     *g:virtualenv_auto_activate*
-    If set, any python files that are loaded will cause an automatic
-    activation of the virtualenv.
+    If set, an attempt will be made to detect any active virtualenv, and
+    activate it.
 
 Example: >
     let g:virtualenv_directory = '/path/to/virtualenvs'
