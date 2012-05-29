@@ -71,7 +71,6 @@ function! s:VirtualEnvActivate(name) "{{{1
     let bin = g:virtualenv_directory.'/'.name.'/bin'
     let script = bin.'/activate_this.py'
     if !filereadable(script)
-        call s:Error("'".name."' is not a valid virtualenv")
         return 0
     endif
     call s:VirtualEnvDeactivate()
