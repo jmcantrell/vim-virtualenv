@@ -137,6 +137,14 @@ function! VirtualEnvStatusline() "{{{1
     endif
 endfunction
 
+function! VirtualEnvCondStatusline() "{{{1
+  if &filetype ==# 'python'
+    return VirtualEnvStatusline()
+  else
+    return ''
+  endif
+endfunction
+
 "}}}
 
 if g:virtualenv_auto_activate == 1
