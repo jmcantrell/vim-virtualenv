@@ -41,18 +41,7 @@ function! s:Error(message) "{{{1
     echohl ErrorMsg | echo a:message | echohl None
 endfunction
 
-function! s:CheckEnv() "{{{1
-    if !isdirectory(g:virtualenv_directory)
-        call s:Error('g:virtualenv_directory is not set or is not a directory')
-        return 0
-    endif
-    return 1
-endfunction
-
 function! s:VirtualEnvActivate(name) "{{{1
-    if !s:CheckEnv()
-        return
-    endif
     let name = a:name
     if len(name) == 0  "Figure out the name based on current file
         if isdirectory($VIRTUAL_ENV)
