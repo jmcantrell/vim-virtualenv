@@ -97,9 +97,6 @@ function! s:VirtualEnvList() "{{{1
 endfunction
 
 function! s:GetVirtualEnvs(prefix) "{{{1
-    if !s:CheckEnv()
-        return []
-    endif
     let venvs = []
     for dir in split(glob(g:virtualenv_directory.'/'.a:prefix.'*'), '\n')
         if !isdirectory(dir)
