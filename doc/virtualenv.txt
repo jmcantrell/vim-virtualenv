@@ -47,6 +47,10 @@ Example: >
 To use the statusline flag, this must appear in your |'statusline'| setting: >
     %{VirtualEnvStatusline()}
 <
+Alternatively, you may display the statusline flag only if the current
+filetype is python using: >
+    %{VirtualEnvCondStatusline()}
+<
 The content is derived from the |g:virtualenv_stl_format| variable.
 
 vim:tw=78:et:ft=help:norl:
