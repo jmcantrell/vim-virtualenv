@@ -41,6 +41,11 @@ function! s:CompleteVirtualEnv(arg_lead, cmd_line, cursor_pos)
     return virtualenv#names(a:arg_lead)
 endfunction
 
+" DEPRECATED: Leaving in for compatibility
+function! VirtualEnvStatusline()
+    return virtualenv#statusline()
+endfunction
+
 if g:virtualenv_auto_activate == 1
     call virtualenv#activate('')
 endif
