@@ -115,6 +115,14 @@ function! s:CompleteVirtualEnv(arg_lead, cmd_line, cursor_pos) "{{{1
     return s:GetVirtualEnvs(a:arg_lead)
 endfunction
 
+function! VirtualEnv#List(...) "{{{1
+    return s:GetVirtualEnvs('')
+endfunction
+
+function! VirtualEnv#Activate(env) "{{{1
+    return s:VirtualEnvActivate(a:env)
+endfunction
+
 function! VirtualEnvStatusline() "{{{1
     if exists('g:virtualenv_name')
         return substitute(g:virtualenv_stl_format, '\C%n', g:virtualenv_name, 'g')
