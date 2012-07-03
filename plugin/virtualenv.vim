@@ -123,6 +123,10 @@ function! VirtualEnv#Activate(env) "{{{1
     return s:VirtualEnvActivate(a:env)
 endfunction
 
+function! VirtualEnv#Deactivate() "{{{1
+    return s:VirtualEnvDeactivate()
+endfunction
+
 function! VirtualEnvStatusline() "{{{1
     if exists('g:virtualenv_name')
         return substitute(g:virtualenv_stl_format, '\C%n', g:virtualenv_name, 'g')
