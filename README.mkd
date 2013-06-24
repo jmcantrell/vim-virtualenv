@@ -33,7 +33,9 @@ imply usage of this value.
 
 If you're a virtualenvwrapper user and have $PROJECT\_HOME set, omitting the
 name will try to guess which virtualenv to activate based on the current
-filename.
+filename. If you do not have $PROJECT\_HOME set, omitting the name will use 
+the virtual environment pointed to by $VIRTUAL\_ENV if set (usually by 
+virtualenvwrapper).
 
 You can even show the current virtualenv in the statusline with the included function
 
