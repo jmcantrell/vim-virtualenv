@@ -23,10 +23,12 @@ function! virtualenv#activate(name) "{{{1
     let g:virtualenv_path = $PATH
     let $PATH = bin.':'.$PATH
     python << EOF
-import vim, sys
+import vim, os, sys
 activate_this = vim.eval('l:script')
 prev_sys_path = list(sys.path)
 execfile(activate_this, dict(__file__=activate_this))
+prev_pythonpath = os.environ.setdefault('PYTHONPATH', '')
+os.environ['PYTHONPATH'] += ':' + os.getcwd() + ':' + ':'.join(sys.path)
 EOF
     let g:virtualenv_name = name
 endfunction
@@ -37,6 +39,8 @@ import vim, sys
 try:
     sys.path[:] = prev_sys_path
     del(prev_sys_path)
+    os.environ['PYTHONPATH'] = prev_pythonpath
+    del(prev_pythonpath)
 except:
     pass
 EOF
