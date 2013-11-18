@@ -21,7 +21,13 @@ function! virtualenv#activate(name) "{{{1
     endif
     call virtualenv#deactivate()
     let g:virtualenv_path = $PATH
-    let $PATH = bin.':'.$PATH
+
+    " Prepend bin to PATH, but only if it's not there already
+    " (activate_this does this also, https://github.com/pypa/virtualenv/issues/14)
+    if $PATH[:len(bin)] != bin.':'
+        let $PATH = bin.':'.$PATH
+    endif
+
     python << EOF
 import vim, os, sys
 activate_this = vim.eval('l:script')
