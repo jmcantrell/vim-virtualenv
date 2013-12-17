@@ -29,10 +29,16 @@ function! virtualenv#activate(name) "{{{1
     endif
 
     python << EOF
-import vim, os, sys
+import vim, os, sys, re, site
 activate_this = vim.eval('l:script')
 prev_sys_path = list(sys.path)
 execfile(activate_this, dict(__file__=activate_this))
+lib_dir = os.path.join(vim.eval('g:virtualenv_directory'), vim.eval('l:name'), 'lib')
+site_packages = [sp for sp in [os.path.join(lib_dir, d, 'site-packages') for d in os.listdir(lib_dir)] if os.path.isdir(sp)]
+if len(site_packages) == 1:
+    sys.path = list(site.addsitedir(site_packages[0], set())) + prev_sys_path
+del lib_dir
+del site_packages
 prev_pythonpath = os.environ.setdefault('PYTHONPATH', '')
 os.environ['PYTHONPATH'] += ':' + os.getcwd() + ':' + ':'.join(sys.path)
 EOF
