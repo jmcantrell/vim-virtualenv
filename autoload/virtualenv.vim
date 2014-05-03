@@ -29,12 +29,20 @@ function! virtualenv#activate(name) "{{{1
     endif
 
     python << EOF
-import vim, os, sys
+import vim, os, sys, subprocess
 activate_this = vim.eval('l:script')
+base = os.path.dirname(os.path.dirname(os.path.abspath(activate_this)))
+base_bin = vim.eval('l:bin')
+env_version = subprocess.check_output(os.path.join(base_bin, 'python') + ' -V', shell=True)
+env_version = env_version.split()[1][:3]
+if sys.platform == 'win32':
+    site_packages = os.path.join(base, 'Lib', 'site-packages')
+else:
+    site_packages = os.path.join(base, 'lib', 'python%s' % env_version, 'site-packages')
 prev_sys_path = list(sys.path)
 execfile(activate_this, dict(__file__=activate_this))
 prev_pythonpath = os.environ.setdefault('PYTHONPATH', '')
-os.environ['PYTHONPATH'] += ':' + os.getcwd() + ':' + ':'.join(sys.path)
+os.environ['PYTHONPATH'] += ':' + os.getcwd() + ':' + site_packages
 EOF
     let g:virtualenv_name = name
 endfunction
