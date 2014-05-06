@@ -33,7 +33,7 @@ import vim, os, sys, subprocess
 activate_this = vim.eval('l:script')
 virt_base = os.path.dirname(os.path.dirname(os.path.abspath(activate_this)))
 virt_base_bin = vim.eval('l:bin')
-env_version = subprocess.check_output(os.path.join(virt_base_bin, 'python') + ' -V', shell=True)
+env_version = subprocess.check_output(os.path.join(virt_base_bin, 'python') + ' -V', stderr=subprocess.STDOUT, shell=True)
 env_version = env_version.split()[1][:3]
 if sys.platform == 'win32':
     site_packages = os.path.join(virt_base, 'Lib', 'site-packages')
