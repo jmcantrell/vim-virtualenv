@@ -14,7 +14,11 @@ function! virtualenv#activate(name) "{{{1
     if len(name) == 0  "Couldn't figure it out, so DIE
         return
     endif
-    let bin = g:virtualenv_directory.'/'.name.'/bin'
+    if isdirectory($VIRTUAL_ENV)
+        let bin = $VIRTUAL_ENV.'/bin'
+    else
+        let bin = g:virtualenv_directory.'/'.name.'/bin'
+    endif
     let script = bin.'/activate_this.py'
     if !filereadable(script)
         return 0
