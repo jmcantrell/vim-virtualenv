@@ -51,4 +51,8 @@ To use the statusline flag, this must appear in your |'statusline'| setting: >
 <
 The content is derived from the |g:virtualenv_stl_format| variable.
 
+Powerline users can see their statuslines too. After configuring powerline
+according to its documentation to support a virtualenv segment, Powerline will
+read the value of $VIRTUAL_ENV and display it.
+
 vim:tw=78:et:ft=help:norl:

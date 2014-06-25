@@ -37,6 +37,7 @@ prev_pythonpath = os.environ.setdefault('PYTHONPATH', '')
 os.environ['PYTHONPATH'] += ':' + os.getcwd() + ':' + ':'.join(sys.path)
 EOF
     let g:virtualenv_name = name
+    let $VIRTUAL_ENV = g:virtualenv_directory.'/'.g:virtualenv_name
 endfunction
 
 function! virtualenv#deactivate() "{{{1
@@ -55,6 +56,7 @@ EOF
     endif
     unlet! g:virtualenv_name
     unlet! g:virtualenv_path
+    let $VIRTUAL_ENV = '' " can't delete parent variables
 endfunction
 
 function! virtualenv#list() "{{{1
