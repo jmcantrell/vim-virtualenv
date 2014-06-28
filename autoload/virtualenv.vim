@@ -1,4 +1,5 @@
 function! virtualenv#activate(name) "{{{1
+    call virtualenv#rel_dir_resolve()
     let name = a:name
     if len(name) == 0  "Figure out the name based on current file
         if isdirectory($VIRTUAL_ENV)
@@ -72,6 +73,7 @@ function! virtualenv#statusline() "{{{1
 endfunction
 
 function! virtualenv#names(prefix) "{{{1
+    call virtualenv#rel_dir_resolve()
     let venvs = []
     for dir in split(glob(g:virtualenv_directory.'/'.a:prefix.'*'), '\n')
         if !isdirectory(dir)
@@ -84,4 +86,22 @@ function! virtualenv#names(prefix) "{{{1
         call add(venvs, fnamemodify(dir, ':t'))
     endfor
     return venvs
+endfunction
+
+function! virtualenv#rel_dir_resolve() "{{{1
+    if has('unix')
+        let g:virtualenv_directory_test = system("echo -n $(readlink -mn \"".g:virtualenv_directory_orig."\")")
+    elseif has('macunix')
+        let g:virtualenv_directory_test = system("echo -n $(greadlink -mn \"".g:virtualenv_directory_orig."\")")
+    endif
+    if !isdirectory(g:virtualenv_directory_test)
+        if isdirectory($WORKON_HOME)
+            let g:virtualenv_directory = $WORKON_HOME
+        else
+            let g:virtualenv_directory = '~/.virtualenvs'
+        endif
+    else
+        let g:virtualenv_directory = g:virtualenv_directory_test
+    endif
+    let g:virtualenv_directory = expand(g:virtualenv_directory)
 endfunction
