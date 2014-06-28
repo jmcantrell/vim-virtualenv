@@ -7,6 +7,8 @@ When using :python or :!python, it will only have access to the environment outs
 
 If compiled with python support, Vim will have a :python command, but this will be tied to whatever version is the default on your system. If this is the version of python that you use, or you're using a Linux distribution with a sensible package manager (like Debian or Ubuntu), you likely will not have to do anything more than install the plugin. If not, then you will likely have to recompile vim with your version of python.
 
+The plugin is even smart enough to handle situations where Vim inherits an active virtualenv from the shell. The plugin can switch between and deactivate those virtualenvs all the same.
+
 Usage examples
 ==============
 
