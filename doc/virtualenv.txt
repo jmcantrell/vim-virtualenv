@@ -33,6 +33,17 @@ g:virtualenv_directory                           *g:virtualenv_directory*
     user and you have $WORKON_HOME set, it will default to this. Otherwise it
     will default to ~/.virtualenvs.
 
+    Support is also given for relative paths. So if you prefer to package your
+    virtualenvs within your project ('./venvs') or in the parent directory
+    relative to your project root ('../venv'), the virtualenv plugin should be
+    able to find those virtualenvs when your pwd is set appropriately.
+
+    As part of this support, when a new current directory is set, the plugin
+    will check that the expanded relative directory exists before doing
+    anything. If the directory does not exist, the plugin will gracefully
+    default back to the value of $WORKON_HOME if it is set, or ~/.virtualenvs
+    as a last resort.
+
 g:virtualenv_auto_activate                       *g:virtualenv_auto_activate*
     If set, an attempt will be made to detect any active virtualenv, and
     activate it.

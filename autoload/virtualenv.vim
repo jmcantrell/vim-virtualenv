@@ -72,6 +72,7 @@ function! virtualenv#statusline() "{{{1
 endfunction
 
 function! virtualenv#names(prefix) "{{{1
+    call virtualenv#dynamic_workon()
     let venvs = []
     for dir in split(glob(g:virtualenv_directory.'/'.a:prefix.'*'), '\n')
         if !isdirectory(dir)
@@ -84,4 +85,18 @@ function! virtualenv#names(prefix) "{{{1
         call add(venvs, fnamemodify(dir, ':t'))
     endfor
     return venvs
+endfunction
+
+function! virtualenv#dynamic_workon() "{{{1
+    exec 'cd' fnameescape(expand('%:p:h'))
+    let virtualenv_directory_test = system("echo -n $(readlink -m \"".g:virtualenv_directory_orig."\")")
+    if !isdirectory(virtualenv_directory_test)
+        if isdirectory($WORKON_HOME)
+            let g:virtualenv_directory = $WORKON_HOME
+        else
+            let g:virtualenv_directory = '~/.virtualenvs'
+        endif
+    else
+        let g:virtualenv_directory = expand(virtualenv_directory_test)
+    endif
 endfunction
