@@ -6,7 +6,9 @@ License: Same terms as Vim itself (see |license|)
 INTRODUCTION                                     *virtualenv* *virtualenv.vim*
 
 The virtualenv plugin allows you to activate and deactivate a virtualenv
-within a live Vim session.
+within a live Vim session. It is even smart enough to handle situations where
+Vim inherits an active virtualenv from the shell. The plugin can switch
+between and deactivate those virtualenvs all the same.
 
 COMMANDS                                         *virtualenv-commands*
 

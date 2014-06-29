@@ -20,13 +20,16 @@ function! virtualenv#activate(name) "{{{1
         return 0
     endif
     call virtualenv#deactivate()
-    let g:virtualenv_path = $PATH
 
+    " DEPRECIATED: creates duplicate entries in $PATH
+    " the 'activate_this' script does this already.
+    "
     " Prepend bin to PATH, but only if it's not there already
     " (activate_this does this also, https://github.com/pypa/virtualenv/issues/14)
-    if $PATH[:len(bin)] != bin.':'
-        let $PATH = bin.':'.$PATH
-    endif
+    " if $PATH[:len(bin)] != bin.':'
+    "     let $PATH = bin.':'.$PATH
+    " endif
+
 
     python << EOF
 import vim, os, sys
@@ -36,25 +39,35 @@ execfile(activate_this, dict(__file__=activate_this))
 prev_pythonpath = os.environ.setdefault('PYTHONPATH', '')
 os.environ['PYTHONPATH'] += ':' + os.getcwd() + ':' + ':'.join(sys.path)
 EOF
+
+    let g:virtualenv_current_venv = bin
+    python <<EOF
+current_venv = vim.eval('g:virtualenv_current_venv')
+EOF
     let g:virtualenv_name = name
 endfunction
 
 function! virtualenv#deactivate() "{{{1
     python << EOF
-import vim, sys
+import vim, os, sys
+inherited_venv = vim.eval('g:virtualenv_inherited_venv_bin')
+current_venv = vim.eval('g:virtualenv_current_venv')
+os_path_list = os.environ['PATH'].split(':')
+if inherited_venv in os_path_list:
+    os_path_list.remove(inherited_venv)
+if current_venv in os_path_list:
+    os_path_list.remove(current_venv)
 try:
-    sys.path[:] = prev_sys_path
+    sys.path = prev_sys_path
     del(prev_sys_path)
     os.environ['PYTHONPATH'] = prev_pythonpath
     del(prev_pythonpath)
+    os.environ['PATH'] = ':'.join(os_path_list)
+    del(os_path_list)
 except:
     pass
 EOF
-    if exists('g:virtualenv_path')
-        let $PATH = g:virtualenv_path
-    endif
     unlet! g:virtualenv_name
-    unlet! g:virtualenv_path
 endfunction
 
 function! virtualenv#list() "{{{1
