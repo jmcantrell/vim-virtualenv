@@ -25,9 +25,14 @@ if !exists("g:virtualenv_directory")
     else
         let g:virtualenv_directory = '~/.virtualenvs'
     endif
+else
+    let g:virtualenv_directory_orig = g:virtualenv_directory
+    if !isdirectory(g:virtualenv_directory)
+        let g:virtualenv_directory = '~/.virtualenvs'
+    endif
 endif
 
-let g:virtualenv_directory = expand(g:virtualenv_directory)
+call virtualenv#rel_dir_resolve()
 
 command! -bar VirtualEnvList :call virtualenv#list()
 command! -bar VirtualEnvDeactivate :call virtualenv#deactivate()
