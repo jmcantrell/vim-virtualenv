@@ -22,7 +22,7 @@ Activate the 'spam' virtualenv
 
     :VirtualEnvActivate spam
 
-If you're sure which one to activate, you could always use tab completion
+If you're unsure which one to activate, you could always use tab completion
 
     :VirtualEnvActivate <tab>
 
