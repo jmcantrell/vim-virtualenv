@@ -2,20 +2,21 @@ function! virtualenv#activate(name) "{{{1
     let name = a:name
     if len(name) == 0  "Figure out the name based on current file
         if isdirectory($VIRTUAL_ENV)
-            let bin = $VIRTUAL_ENV.'/bin'
             let name = fnamemodify($VIRTUAL_ENV, ':t')
+            let env_dir = $VIRTUAL_ENV
         elseif isdirectory($PROJECT_HOME)
             let fn = expand('%:p')
             let pat = '^'.$PROJECT_HOME.'/'
             if fn =~ pat
                 let name = fnamemodify(substitute(fn, pat, '', ''), ':h')
-                let bin = g:virtualenv_directory.'/'.name.'/bin'
+                let env_dir = g:virtualenv_directory.'/'.name
             endif
         endif
     endif
-    if len(bin) == 0  "Couldn't figure it out, so DIE
+    if len(env_dir) == 0  "Couldn't figure it out, so DIE
         return
     endif
+    let bin = env_dir.'/bin'
     let script = bin.'/activate_this.py'
     if !filereadable(script)
         return 0
@@ -34,7 +35,7 @@ import vim, os, sys, re, site
 activate_this = vim.eval('l:script')
 prev_sys_path = list(sys.path)
 execfile(activate_this, dict(__file__=activate_this))
-lib_dir = os.path.join(vim.eval('g:virtualenv_directory'), vim.eval('l:name'), 'lib')
+lib_dir = os.path.join(vim.eval('l:env_dir'), 'lib')
 site_packages = [sp for sp in [os.path.join(lib_dir, d, 'site-packages') for d in os.listdir(lib_dir)] if os.path.isdir(sp)]
 if len(site_packages) == 1:
     sys.path = list(site.addsitedir(site_packages[0], set())) + prev_sys_path
