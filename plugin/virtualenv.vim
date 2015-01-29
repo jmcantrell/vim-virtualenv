@@ -29,6 +29,14 @@ endif
 
 let g:virtualenv_directory = expand(g:virtualenv_directory)
 
+if len($VIRTUAL_ENV) != 0
+    let g:virtualenv_inherited_venv_bin = $VIRTUAL_ENV.'/bin'
+    let g:virtualenv_current_venv = g:virtualenv_inherited_venv_bin
+else
+    let g:virtualenv_inherited_venv_bin = ''
+    let g:virtualenv_current_venv = ''
+endif
+
 command! -bar VirtualEnvList :call virtualenv#list()
 command! -bar VirtualEnvDeactivate :call virtualenv#deactivate()
 command! -bar -nargs=? -complete=customlist,s:CompleteVirtualEnv VirtualEnvActivate :call virtualenv#activate(<q-args>)
