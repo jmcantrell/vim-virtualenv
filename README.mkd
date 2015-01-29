@@ -39,6 +39,16 @@ You can even show the current virtualenv in the statusline with the included fun
 
 ![statusline](http://i.imgur.com/oxE70.png "Statusline")
 
+The plugin also supports relative paths for the location of your virtualenvs.
+Locations such as `./venv` or `../venv` are supported in case you like to
+package your virtualenvs inside or relative to your project code. Care is taken
+to ensure that this location exists before defaulting back to the value of
+`$WORKON_HOME` if you are a virtualenvwrapper user or `~/.virtualenvs` as a
+last resort. This has the pleasant side-effect of allowing access to two sets
+of virtualenvs depending on what your current directory is; a project-specific
+set of virtualenvs located in the relative location, or a general set located
+in either of the other two fallback locations.
+
 For more detailed help
 
     :help virtualenv
