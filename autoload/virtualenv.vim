@@ -13,9 +13,12 @@ function! virtualenv#activate(name) "{{{1
             endif
         endif
     endif
-    if len(env_dir) == 0  "Couldn't figure it out, so DIE
+
+    "Couldn't figure it out, so DIE
+    if !exists('l:env_dir') || len(env_dir) == 0
         return
     endif
+
     let bin = env_dir.'/bin'
     let script = bin.'/activate_this.py'
     if !filereadable(script)
