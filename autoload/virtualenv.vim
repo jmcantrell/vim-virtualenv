@@ -2,19 +2,20 @@ function! virtualenv#activate(name) "{{{1
     let name = a:name
     if len(name) == 0  "Figure out the name based on current file
         if isdirectory($VIRTUAL_ENV)
+            let bin = $VIRTUAL_ENV.'/bin'
             let name = fnamemodify($VIRTUAL_ENV, ':t')
         elseif isdirectory($PROJECT_HOME)
             let fn = expand('%:p')
             let pat = '^'.$PROJECT_HOME.'/'
             if fn =~ pat
                 let name = fnamemodify(substitute(fn, pat, '', ''), ':h')
+                let bin = g:virtualenv_directory.'/'.name.'/bin'
             endif
         endif
     endif
-    if len(name) == 0  "Couldn't figure it out, so DIE
+    if len(bin) == 0  "Couldn't figure it out, so DIE
         return
     endif
-    let bin = g:virtualenv_directory.'/'.name.'/bin'
     let script = bin.'/activate_this.py'
     if !filereadable(script)
         return 0
