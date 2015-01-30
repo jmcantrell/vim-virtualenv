@@ -7,7 +7,7 @@ let g:virtualenv_loaded = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-if !has('python')
+if !has('python') && !has('python3')
     finish
 endif
 
