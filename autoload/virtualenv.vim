@@ -32,7 +32,7 @@ function! virtualenv#activate(name)
         return
     endif
 
-    let bin = env_dir.'/bin'
+    let bin = env_dir.(has('win32')? '/Scripts': '/bin')
     call virtualenv#deactivate()
 
     let s:prev_path = $PATH
@@ -83,7 +83,7 @@ function! virtualenv#names(prefix)
         if !isdirectory(dir)
             continue
         endif
-        let fn = dir.'/bin/activate'
+        let fn = dir.(has('win32')? '/Scripts': '/bin').'/activate'
         if !filereadable(fn)
             continue
         endif
