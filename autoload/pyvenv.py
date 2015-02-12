@@ -5,7 +5,7 @@ prev_syspath = None
 def activate(env):
     global prev_syspath
     prev_syspath = list(sys.path)
-    activate = os.path.join(env, 'bin', 'activate_this.py')
+    activate = os.path.join(env, (sys.platform == 'win32') and 'Scripts' or 'bin', 'activate_this.py')
     with open(activate) as f:
         code = compile(f.read(), activate, 'exec')
         exec(code, dict(__file__=activate))
