@@ -8,8 +8,9 @@ elseif has('python3')
     python3 import pyvenv
 endif
 
-function! virtualenv#activate(name)
-    let name = a:name
+function! virtualenv#activate(...)
+    let name   = a:0 > 0 ? a:1 : ''
+    let silent = a:0 > 1 ? a:2 : 0
     let env_dir = ''
     if len(name) == 0  "Figure out the name based on current file
         if isdirectory($VIRTUAL_ENV)
@@ -29,6 +30,9 @@ function! virtualenv#activate(name)
 
     "Couldn't figure it out, so DIE
     if !isdirectory(env_dir)
+        if !silent
+            echoerr "No virtualenv could be auto-detected and activated."
+        endif
         return
     endif
 
