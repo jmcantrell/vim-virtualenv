@@ -47,7 +47,7 @@ function! VirtualEnvStatusline()
 endfunction
 
 if g:virtualenv_auto_activate == 1
-    call virtualenv#activate('')
+    call virtualenv#activate('', 1)
 endif
 
 let &cpo = s:save_cpo
