@@ -37,11 +37,15 @@ def activate(env):
     prev_syspath = list(sys.path)
     activate = os.path.join(env, (sys.platform == 'win32') and 'Scripts' or 'bin', 'activate_this.py')
     try:
-        f = open(activate).read()
+        fo = open(activate)
+        f = fo.read()
+        fo.close()
     except:
         f = activate_content
-        code = compile(f, activate, 'exec')
-        exec(code, dict(__file__=activate))
+
+    code = compile(f, activate, 'exec')
+    exec(code, dict(__file__=activate))
+
 
 def deactivate():
     global prev_syspath
