@@ -1,3 +1,4 @@
+*.pyc
 /doc/tags
 
 ### Template taken from github's gitignore repository
