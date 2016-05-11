@@ -53,6 +53,10 @@ function! virtualenv#activate(...)
 
     let g:virtualenv_name = name
     let $VIRTUAL_ENV = env_dir
+
+    if exists("*airline#extensions#virtualenv#update")
+           call airline#extensions#virtualenv#update()
+    endif
 endfunction
 
 function! virtualenv#deactivate()
@@ -69,6 +73,10 @@ function! virtualenv#deactivate()
 
     if exists('s:prev_path')
         let $PATH = s:prev_path
+    endif
+
+    if exists("*airline#extensions#virtualenv#update")
+           call airline#extensions#virtualenv#update()
     endif
 endfunction
 
