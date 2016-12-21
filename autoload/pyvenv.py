@@ -2,7 +2,8 @@ import vim, os, sys
 
 prev_syspath = None
 
-activate_content = """
+def activate(env):
+    activate_content = """
 try:
     __file__
 except NameError:
@@ -17,8 +18,7 @@ base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if sys.platform == 'win32':
     site_packages = os.path.join(base, 'Lib', 'site-packages')
 else:
-    version = '%s.%s' % (sys.version_info.major, sys.version_info.minor)
-    site_packages = os.path.join(base, 'lib', 'python%s' % version, 'site-packages')
+    site_packages = os.path.join(base, 'lib', 'python%s', 'site-packages')
 prev_sys_path = list(sys.path)
 import site
 site.addsitedir(site_packages)
@@ -31,9 +31,9 @@ for item in list(sys.path):
         new_sys_path.append(item)
         sys.path.remove(item)
 sys.path[:0] = new_sys_path
-"""
+""" % os.popen("%s --version" % os.path.join(env, "bin", "python")
+              ).readline().split()[1][:3]
 
-def activate(env):
     global prev_syspath
     prev_syspath = list(sys.path)
     activate = os.path.join(env, (sys.platform == 'win32') and 'Scripts' or 'bin', 'activate_this.py')
