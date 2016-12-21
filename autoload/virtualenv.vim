@@ -1,12 +1,12 @@
-if has('python')
-    python import sys, vim
-    python if vim.eval('expand("<sfile>:p:h")') not in sys.path: sys.path.append(vim.eval('expand("<sfile>:p:h")'))
-    python import pyvenv
-endif
 if has('python3')
     python3 import sys, vim
     python3 if vim.eval('expand("<sfile>:p:h")') not in sys.path: sys.path.append(vim.eval('expand("<sfile>:p:h")'))
     python3 import pyvenv
+endif
+if has('python')
+    python import sys, vim
+    python if vim.eval('expand("<sfile>:p:h")') not in sys.path: sys.path.append(vim.eval('expand("<sfile>:p:h")'))
+    python import pyvenv
 endif
 
 function! virtualenv#activate(...)
