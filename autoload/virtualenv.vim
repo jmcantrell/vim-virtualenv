@@ -12,11 +12,17 @@ endif
 function! virtualenv#activate(...)
     let name   = a:0 > 0 ? a:1 : ''
     let silent = a:0 > 1 ? a:2 : 0
+    let env_type = ''
     let env_dir = ''
     if len(name) == 0  "Figure out the name based on current file
         if isdirectory($VIRTUAL_ENV)
             let name = fnamemodify($VIRTUAL_ENV, ':t')
+            let env_type = 'virtualenv'
             let env_dir = $VIRTUAL_ENV
+        elseif isdirectory($CONDA_PREFIX)
+            let name = fnamemodify($CONDA_PREFIX, ':t')
+            let env_type = 'conda'
+            let env_dir = $CONDA_PREFIX
         elseif isdirectory($PROJECT_HOME)
             let fn = expand('%:p')
             let pat = '^'.$PROJECT_HOME.'/'
@@ -52,7 +58,11 @@ function! virtualenv#activate(...)
     endif
 
     let g:virtualenv_name = name
-    let $VIRTUAL_ENV = env_dir
+    if env_type ==# 'virtualenv'
+        let $VIRTUAL_ENV = env_dir
+    elseif env_type ==# 'conda'
+        let $CONDA_PREFIX = env_dir
+    endif
 
     if exists("*airline#extensions#virtualenv#update")
            call airline#extensions#virtualenv#update()
