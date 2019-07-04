@@ -22,6 +22,8 @@ endif
 if !exists("g:virtualenv_directory")
     if isdirectory($WORKON_HOME)
         let g:virtualenv_directory = $WORKON_HOME
+    elseif isdirectory(expand($VIRTUAL_ENV))
+        let g:virtualenv_directory = expand($VIRTUAL_ENV)
     else
         let g:virtualenv_directory = '~/.virtualenvs'
     endif
