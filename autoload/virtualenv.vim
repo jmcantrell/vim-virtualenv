@@ -1,3 +1,4 @@
+" vim: set tabstop=4 expandtab shiftwidth=4 softtabstop=4 :
 if has('python3')
     python3 import sys, vim
     python3 if vim.eval('expand("<sfile>:p:h")') not in sys.path: sys.path.append(vim.eval('expand("<sfile>:p:h")'))
