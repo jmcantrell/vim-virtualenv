@@ -44,6 +44,12 @@ function! virtualenv#activate(...)
 
     let s:prev_path = $PATH
 
+    " Prepend bin to PATH, but only if it's not there already
+    " (activate_this does this also, https://github.com/pypa/virtualenv/issues/14)
+    if $PATH[:len(bin)] != bin.':'
+      let $PATH = bin.':'.$PATH
+    endif
+
     if has('python')
         python pyvenv.activate(vim.eval('l:env_dir'))
     endif
