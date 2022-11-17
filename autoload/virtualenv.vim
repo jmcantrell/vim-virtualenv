@@ -46,8 +46,10 @@ function! virtualenv#activate(...)
 
     " Prepend bin to PATH, but only if it's not there already
     " (activate_this does this also, https://github.com/pypa/virtualenv/issues/14)
-    if $PATH[:len(bin)] != bin.':'
-      let $PATH = bin.':'.$PATH
+    let PATHsep = has('win32') ? ';' : ':'
+
+    if $PATH[:len(bin)] != bin.PATHsep
+      let $PATH = bin.PATHsep.$PATH
     endif
 
     if has('python')
